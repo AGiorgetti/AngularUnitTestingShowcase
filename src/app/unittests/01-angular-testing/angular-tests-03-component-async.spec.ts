@@ -6,13 +6,13 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthService } from "app/services/auth.service";
-import { AuthApiService } from "app/services/auth-api.service";
 import { By } from "@angular/platform-browser";
 import { fakeAsync } from "@angular/core/testing";
 import { tick } from "@angular/core/testing";
 import { inject } from "@angular/core/testing";
-import { GreetingsAsyncComponent } from "app/components/greetings-async/greetings-async.component";
+import { GreetingsAsyncComponent } from '../../components/greetings-async/greetings-async.component';
+import { AuthService } from '../../services/auth.service';
+import { AuthApiService } from '../../services/auth-api.service';
 
 // What if our component interact with an internal service with async functions ?
 // Let's see how to properly test when waiting for services to provide the data to the component.
@@ -38,12 +38,14 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
     component = fixture.componentInstance;
 
     authService = fixture.debugElement.injector.get(AuthService);
+
     // add a spy that provides the test with the proper initialization
     // we simulate having a user already authenticated, the server have to provide the
     // data.
     getLoggedUserAsyncSpy = spyOn(authService, "getLoggedUserAsync")
       .and.returnValue(Promise.resolve("Alessandro"));
-      // .and.callThrough(); // delegating to functions with timers might create problems to Angular testing utilities
+      // .and.callThrough();
+      // delegating to functions with timers might create problems to Angular testing utilities
 
     el = fixture.debugElement.query(By.css("h3")).nativeElement;
 
@@ -61,10 +63,10 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
     expect(getLoggedUserAsyncSpy.calls.any()).toBe(false, 'getLoggedUserAsync not yet called');
   });
 
-  it('should still not show quote after component initialized', () => {
+  it('should still not show quote after component initialize', () => {
     // force change detecion, calls ngOnInit
     fixture.detectChanges();
-    // getLoggedUserAsync is async => still has not returned with text
+    // getLoggedUserAsync is async => still has not returned any data
     expect(el.textContent).toBe('...', 'no greetings yet');
     expect(getLoggedUserAsyncSpy.calls.any()).toBe(true, 'getLoggedUserAsync called');
   });
@@ -79,7 +81,7 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
       .then(() => {
         // force a change detection to update the view (the tests does not do it automatically)
         fixture.detectChanges();
-        expect(el.textContent).toBe("welcome, Alessandro");
+        expect(el.textContent).toBe("Welcome, Alessandro");
       });
   }));
 
@@ -92,7 +94,7 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
     tick(); // use tick(500) when you set .and.callThrough() on the getLoggedUserAsyncSpy Spy.
     // force a change detection to update the view (the tests does not do it automatically)
     fixture.detectChanges();
-    expect(el.textContent).toBe("welcome, Alessandro");
+    expect(el.textContent).toBe("Welcome, Alessandro");
   }));
 
   // sometimes we need to use the traditional jasmine way to do async tests
@@ -105,7 +107,7 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
       .then(() => {
         // force a change detection to update the view (the tests does not do it automatically)
         fixture.detectChanges();
-        expect(el.textContent).toBe("welcome, Alessandro");
+        expect(el.textContent).toBe("Welcome, Alessandro");
         done();
       });
   });
@@ -115,6 +117,6 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
   it('AuthService should return the logged user username', async(inject([AuthService], async (service) => {
     const loggedUser = await service.getLoggedUserAsync();
     expect(loggedUser).toBe("Alessandro");
-  })))
+  })));
 
 });

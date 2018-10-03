@@ -1,6 +1,6 @@
-import { AuthService } from "app/services/auth.service";
 import { inject } from "@angular/core/testing";
-import { AuthApiService } from "app/services/auth-api.service";
+import { AuthApiService } from "../../services/auth-api.service";
+import { AuthService } from "../../services/auth.service";
 
 // Use Jasmine to setup and execute Pure Unit Tests
 
@@ -66,7 +66,7 @@ describe('02 - Pure Test - spyOn - AuthApiService', () => {
 
   it("should have no logged user if the http call fails (fake)", async (done) => {
     // always fail the login procedure (this changes the service behavior)
-    loginSpy.and.callFake((username: string, password: string) => { throw new Error("http error!") });
+    loginSpy.and.callFake((username: string, password: string) => { throw new Error("http error!"); });
     try {
       const result = await sut.loginAsync("Alessandro", "12345");
     } catch (e) {

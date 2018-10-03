@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthApiService } from "app/services/auth-api.service";
+import { AuthApiService } from './auth-api.service';
 
 @Injectable()
 export class AuthService {
 
-  private _isLoggedIn = false
+  private _isLoggedIn = false;
   public get isLoggedIn() {
     return this._isLoggedIn;
   }
@@ -73,13 +73,14 @@ export class AuthService {
   */
 
   public async loginAsync(username: string, password: string): Promise<boolean> {
-    const result = await this._authApi.login(username, password)
+    const result = await this._authApi.login(username, password);
     if (result === true) {
       this._isLoggedIn = true;
       this._username = username;
     }
     return result;
   }
+
   public async logoutAsync(): Promise<boolean> {
     const result = await this._authApi.logout();
     if (result === true) {

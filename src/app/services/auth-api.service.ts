@@ -11,13 +11,13 @@ export class AuthApiService {
 
   public static delay = 500;
 
-  private _loggedUser: string;
+  private _loggedUser: string; // simulates a remote service holding the state
 
   constructor() { }
 
   public login(username: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      setTimeout(function () {
+      setTimeout(() => {
         this._loggedUser = username;
         resolve(true);
       }, AuthApiService.delay);
@@ -26,8 +26,8 @@ export class AuthApiService {
 
   public logout(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      setTimeout(function () {
-        this._loggedUser = "";
+      setTimeout(() => {
+        this._loggedUser = '';
         resolve(true);
       }, AuthApiService.delay);
     });
@@ -35,7 +35,7 @@ export class AuthApiService {
 
   public getLoggedUser(): Promise<string> {
     return new Promise((resolve, reject) => {
-      setTimeout(function () {
+      setTimeout(() => {
         resolve(this._loggedUser);
       }, AuthApiService.delay);
     });

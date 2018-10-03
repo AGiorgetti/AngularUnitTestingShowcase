@@ -1,5 +1,5 @@
-import { AuthApiService } from "app/services/auth-api.service";
-import { AuthService } from "app/services/auth.service";
+import { AuthApiService } from "../../services/auth-api.service";
+import { AuthService } from "../../services/auth.service";
 
 // Jasmine can also mix both approaches:
 // - create a stub object.
@@ -62,7 +62,7 @@ describe('04 - Pure Test - spyOn a stub object.', () => {
 
   it("should have no logged user if the http call fails (fake)", async (done) => {
     // always fail the login procedure (this changes the service behavior)
-    authApiServiceStub.login = (username: string, password: string) => { throw new Error("http error!") };
+    authApiServiceStub.login = (username: string, password: string) => { throw new Error("http error!"); };
     // I changed the function, I need to reinstall the spy.
     loginSpy = spyOn(authApiServiceStub, "login")
       .and.callThrough();
@@ -143,7 +143,7 @@ describe('04 - Pure Test - a spy stub object!', () => {
 
   it("should have no logged user if the http call fails (fake)", async (done) => {
     // always fail the login procedure (this changes the service behavior)
-    authApiServiceStub.login.and.callFake((username: string, password: string) => { throw new Error("http error!") });
+    authApiServiceStub.login.and.callFake((username: string, password: string) => { throw new Error("http error!"); });
 
     try {
       const result = await sut.loginAsync("Alessandro", "12345");

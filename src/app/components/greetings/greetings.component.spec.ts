@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GreetingsComponent } from './greetings.component';
-import { AuthService } from "app/services/auth.service";
 import { By } from "@angular/platform-browser";
 import { inject } from "@angular/core/testing";
-import { AuthApiService } from "app/services/auth-api.service";
+import { AuthService } from '../../services/auth.service';
+import { AuthApiService } from '../../services/auth-api.service';
 
 // Use a STUB OBJECT
 
@@ -114,8 +114,8 @@ describe('GreetingsComponent - Stub Injected Service', () => {
     // might not be able to resolve the service (ie: https://angular.io/docs/ts/latest/guide/testing.html#component-override).
     // we can also use the inject() testing utility
     const auth = fixture.debugElement.injector.get(AuthService);
-    (<any>authServiceStub).isLoggedIn = true;
-    (<any>authServiceStub).username = "Alessandro";
+    (<any>auth).isLoggedIn = true;
+    (<any>auth).username = "Alessandro";
     // even with this approach it will never update the message, it's set in the OnInit
     // (detectChanges is called in the beforeEach)
     // and when the component was created the user was not authenticated.
@@ -130,8 +130,8 @@ describe('GreetingsComponent - Stub Injected Service', () => {
 
   it("should display greetings message when the user is authenticated", () => {
     const auth = fixture.debugElement.injector.get(AuthService);
-    (<any>authServiceStub).isLoggedIn = true;
-    (<any>authServiceStub).username = "Alessandro";
+    (<any>auth).isLoggedIn = true;
+    (<any>auth).username = "Alessandro";
 
     fixture.detectChanges();
 

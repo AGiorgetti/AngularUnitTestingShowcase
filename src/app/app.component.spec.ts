@@ -2,6 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 // this is an Angular testing utility that can be used to produce predicates used by the DebugElement.query() method
 import { By } from "@angular/platform-browser";
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 // Jasmine uses describe() to setup a test suite
 describe('AppComponent', () => {
@@ -19,6 +20,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     }).compileComponents();
     // calling '.compileComponents()' locks down the testing module. No more configuration
     // or override methods calls are allowed after this call.
@@ -35,10 +37,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'app'`, () => {
+  it(`should have as title 'Unit Testing an Angular App!'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
+    expect(app.title).toEqual('Unit Testing an Angular App!');
   });
 
   // changeDetection() is not automatic, this is intentional, so the user
@@ -58,7 +60,7 @@ describe('AppComponent', () => {
     // WARNING!!! A direct, synchronous update of the component property is invisible.
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Unit Testing an Angular App!');
   });
 
   it('should render title in a h1 tag (using .query(By))', () => {
@@ -66,7 +68,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     // use .query(By.css) to retrieve the first element that matches the css selector
     const compiled = fixture.debugElement.query(By.css("h1")).nativeElement;
-    expect(compiled.textContent).toContain('Welcome to app!');
+    expect(compiled.textContent).toContain('Welcome to Unit Testing an Angular App!');
   });
 
   // WARNING!!! A direct, synchronous update (without a change detection) of the component property is invisible.
@@ -75,12 +77,12 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     // it now reads 'Welcome to app!'
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Unit Testing an Angular App!');
 
     // update the title
     fixture.componentInstance.title = "app v2";
     // it still reads 'Welcome to app!'
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Unit Testing an Angular App!');
   });
 
   it("should display a different title", () => {

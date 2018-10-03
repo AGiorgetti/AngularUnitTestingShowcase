@@ -43,3 +43,5 @@ Thumbs.db
 
 # Custom
 test-results.xml
+test-results-junit.xml
+package-lock.json

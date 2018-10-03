@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GreetingsAsyncComponent } from './greetings-async.component';
-import { AuthService } from "app/services/auth.service";
-import { AuthApiService } from "app/services/auth-api.service";
 import { By } from "@angular/platform-browser";
 import { fakeAsync } from "@angular/core/testing";
 import { tick } from "@angular/core/testing";
 import { inject } from "@angular/core/testing";
+import { AuthService } from '../../services/auth.service';
+import { AuthApiService } from '../../services/auth-api.service';
 
 // What if our component interact with an internal service with async functions ?
 // Let's see how to properly test when waiting for services to provide the data to the component.
@@ -73,7 +73,7 @@ describe('GreetingsAsyncComponent', () => {
       .then(() => {
         // force a change detection to update the view (the tests does not do it automatically)
         fixture.detectChanges();
-        expect(el.textContent).toBe("welcome, Alessandro");
+        expect(el.textContent).toBe("Welcome, Alessandro");
       });
   }));
 
@@ -86,7 +86,7 @@ describe('GreetingsAsyncComponent', () => {
     tick();
     // force a change detection to update the view (the tests does not do it automatically)
     fixture.detectChanges();
-    expect(el.textContent).toBe("welcome, Alessandro");
+    expect(el.textContent).toBe("Welcome, Alessandro");
   }));
 
   // sometimes we need to use the traditional jasmine way to do async tests
@@ -99,7 +99,7 @@ describe('GreetingsAsyncComponent', () => {
       .then(() => {
         // force a change detection to update the view (the tests does not do it automatically)
         fixture.detectChanges();
-        expect(el.textContent).toBe("welcome, Alessandro");
+        expect(el.textContent).toBe("Welcome, Alessandro");
         done();
       });
   });
@@ -109,6 +109,6 @@ describe('GreetingsAsyncComponent', () => {
   it('AuthService should return the logged user username', async(inject([AuthService], async (service) => {
     const loggedUser = await service.getLoggedUserAsync();
     expect(loggedUser).toBe("Alessandro");
-  })))
+  })));
 
 });

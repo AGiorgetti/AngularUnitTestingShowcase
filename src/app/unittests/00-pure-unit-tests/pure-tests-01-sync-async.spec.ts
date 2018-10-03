@@ -1,6 +1,6 @@
-import { AuthService } from "app/services/auth.service";
 import { inject } from "@angular/core/testing";
-import { AuthApiService } from "app/services/auth-api.service";
+import { AuthService } from "../../services/auth.service";
+import { AuthApiService } from "../../services/auth-api.service";
 
 // Use Jasmine to setup and execute Pure Unit Tests
 

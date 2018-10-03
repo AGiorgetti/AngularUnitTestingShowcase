@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "app/services/auth.service";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-greetings-async',
@@ -18,7 +18,7 @@ export class GreetingsAsyncComponent implements OnInit {
   async ngOnInit() {
     const loggedUser = await this._authService.getLoggedUserAsync();
 
-    this.greetings = loggedUser != null && loggedUser !== "" ? "welcome, " + loggedUser : "please log in.";
+    this.greetings = loggedUser != null && loggedUser !== "" ? "Welcome, " + loggedUser : "please log in.";
   }
 
 }

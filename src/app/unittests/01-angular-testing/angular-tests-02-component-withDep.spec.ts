@@ -3,12 +3,11 @@
  */
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AuthService } from "app/services/auth.service";
 import { By } from "@angular/platform-browser";
 import { inject } from "@angular/core/testing";
-import { AuthApiService } from "app/services/auth-api.service";
-import { GreetingsComponent } from "app/components/greetings/greetings.component";
+import { GreetingsComponent } from '../../components/greetings/greetings.component';
+import { AuthService } from '../../services/auth.service';
+import { AuthApiService } from '../../services/auth-api.service';
 
 // Use a STUB OBJECT
 
@@ -16,8 +15,8 @@ import { GreetingsComponent } from "app/components/greetings/greetings.component
 // - Stub: provide a stub object.
 // - Spy the real service: provide the real implementation of the service and stub its behavior with 'spyOn'.
 //
-// Always get the service from an Injector
-// do not reference this instance inside the tests anymore, the instance that will be injected in the
+// However always get the service from an Injector
+// do not use the instance of the stub inside the tests anymore: the instance that will be injected in the
 // component is a clone - something different - of this object!
 // - This object can be used to configure the service until it's injected in the SUT.
 // - If you want to change properties of the injected object, you'll need to get
@@ -49,8 +48,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
   })
   */
 
-  // creates an instance of the component for each test, right after the initialization
-  // the bindings are immediately evaluated, we have no chance to setup the things.
+  // creates an instance of the component for each test
   beforeEach(() => {
     fixture = TestBed.createComponent(GreetingsComponent);
     component = fixture.componentInstance;
@@ -63,7 +61,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
     expect(component).toBeTruthy();
   });
 
-  it("with not authenticated user should display 'please log in'", () => {
+  it("should display 'please log in' if the user is not authenticated", () => {
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css("h3")).nativeElement;
     expect(el.textContent).toBe("please log in.");
@@ -73,7 +71,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
   // 3 Ways to do it:
 
   // 1- from the Component's Injector
-  // The way that will always work (angular has a ierarchy of injectors) is to ask the component's injector
+  // The way that will always work (Angular has a hierarchy of injectors) is to ask the component's injector
   // (we can access it through the fixture).
   it("should access the injected service from the Component's Injector", () => {
     const auth = fixture.debugElement.injector.get(AuthService);
@@ -94,8 +92,8 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
   // Do not use the Service Stub definition object in a Test, it's different than the object
   // being injected!
   it('the orignal stub definition object and the injected UserService should not be the same', () => {
-    // this verifies that the instance of the object you register is not the same that will be served to the
-    // component
+    // this test verifies that the instance of the object you registered
+    // is not the same that will be served to the component
     const auth = fixture.debugElement.injector.get(AuthService);
     expect(authServiceStub === auth).toBe(false);
 
@@ -111,15 +109,12 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
   it("if we authenticate a user (later on) should display 'please log in'", () => {
     // force the usual Angular behavior (evaluate bindings right after component creation)
     fixture.detectChanges();
-    // Get the service from an injector!
-    // the way that will always work (angular has a ierarchy of injectors) is to ask the component's injector
-    // (we can access it through the fixture).
-    // Another alternative is to use TestBed.get(), but angular has a hierarchy of injectors and the root injector
-    // might not be able to resolve the service (ie: https://angular.io/docs/ts/latest/guide/testing.html#component-override).
-    // we can also use the inject() testing utility
+
     const auth = fixture.debugElement.injector.get(AuthService);
-    (<any>authServiceStub).isLoggedIn = true;
-    (<any>authServiceStub).username = "Alessandro";
+
+    (<any>auth).isLoggedIn = true;
+    (<any>auth).username = "Alessandro";
+
     // even with this approach it will never update the message, it's set in the OnInit
     // (detectChanges is called in the beforeEach)
     // and when the component was created the user was not authenticated.
@@ -129,13 +124,12 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
     // so the component is not really well made.
   });
 
-  // we can retrieve instances of the services and setup the data in the beforeEach() stages to
-  // prepare the field for the tests
-
   it("should display greetings message when the user is authenticated", () => {
     const auth = fixture.debugElement.injector.get(AuthService);
-    (<any>authServiceStub).isLoggedIn = true;
-    (<any>authServiceStub).username = "Alessandro";
+
+    // however is we change the values before the OnInit(), it will work!
+    (<any>auth).isLoggedIn = true;
+    (<any>auth).username = "Alessandro";
 
     fixture.detectChanges();
 
@@ -151,7 +145,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
 // - Stub: provide a stub object.
 // - Spy the real service: provide the real implementation of the service and stub its behavior with 'spyOn'.
 //
-// Always get the service from an Injector
+// However always get the service from an Injector
 // do not reference this instance insice tests anymore, the instance that will be injected in the
 // component is a clone - something different - of this object!
 // - This object can be used to configure the service until it's injected in the SUT.
@@ -186,6 +180,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub/SpyOn Injec
     // change the service behavior before the first detectChanges() call!
     // authenticate a user.
     const auth = fixture.debugElement.injector.get(AuthService);
+
     spyOnProperty(auth, "isLoggedIn", "get").and.returnValue(true);
     spyOnProperty(auth, "username", "get").and.returnValue("Alessandro");
 

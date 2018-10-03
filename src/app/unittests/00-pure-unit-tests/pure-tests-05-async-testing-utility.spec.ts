@@ -1,10 +1,10 @@
-import { AuthService } from "app/services/auth.service";
 import { inject } from "@angular/core/testing";
-import { AuthApiService } from "app/services/auth-api.service";
 import { async } from "@angular/core/testing";
 import { fakeAsync } from "@angular/core/testing";
 import { tick } from "@angular/core/testing";
 import { discardPeriodicTasks } from "@angular/core/testing";
+import { AuthApiService } from "../../services/auth-api.service";
+import { AuthService } from "../../services/auth.service";
 
 // Take advantage of Angular Testing Utilities to write async tests:
 // async()

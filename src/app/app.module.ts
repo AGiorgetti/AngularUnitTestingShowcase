@@ -5,15 +5,20 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { GreetingsComponent } from './components/greetings/greetings.component';
-import { AuthService } from "app/services/auth.service";
-import { AuthApiService } from "app/services/auth-api.service";
 import { GreetingsAsyncComponent } from './components/greetings-async/greetings-async.component';
+
+import { AuthService } from './services/auth.service';
+import { AuthApiService } from './services/auth-api.service';
+import { GreetingsObservableComponent } from './components/greetings-observable/greetings-observable.component';
+import { DemoComponent } from './components/demo/demo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GreetingsComponent,
-    GreetingsAsyncComponent
+    GreetingsAsyncComponent,
+    GreetingsObservableComponent,
+    DemoComponent
   ],
   imports: [
     BrowserModule,
