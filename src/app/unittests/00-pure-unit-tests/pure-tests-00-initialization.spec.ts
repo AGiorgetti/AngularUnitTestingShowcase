@@ -12,11 +12,11 @@ describe('00 - Pure Test - Init - AuthService', () => {
   let sut: AuthService;
 
   // Jasmine runs the beforEach() functions before each test.
-  // It resets the configuration before each test, it will provide you
+  // It resets the configuration before each test, it will provide us
   // with a clean environment every time.
-  // You can have more than one beforeEach() in a test suite, they will be executed in the correct order.
+  // We can have more than one beforeEach() in a test suite, they will be executed in the correct order.
   beforeEach(() => {
-    // no dependency injection, create everything with constructors
+    // no dependency injection: create everything with constructors
     sut = new AuthService(new AuthApiService);
   });
 

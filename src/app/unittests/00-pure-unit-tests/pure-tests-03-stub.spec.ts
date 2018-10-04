@@ -17,7 +17,7 @@ describe('03 - Pure Test - using a Stub object', () => {
 
   beforeEach(() => {
     // create a stub object, we can control the test implementing / changing its behavior on the fly.
-    // we also have TypeScript to help us here (in case of refactoring).
+    // TypeScript helps us here (in case of refactoring and when redefining function behavior).
     authApiServiceStub = <AuthApiService>{};
     authApiServiceStub.login = (username: string, password: string) => Promise.resolve(true);
 
@@ -32,7 +32,7 @@ describe('03 - Pure Test - using a Stub object', () => {
     expect(sut.isLoggedIn).toBeFalsy();
   });
 
-  // intrument using a 'Spy' and delegate to the original function code
+  // use the stub object to provide predefined return values to functions
   it("should login a user", async (done) => {
     const result = await sut.loginAsync("Alessandro", "12345");
     expect(result).toBeTruthy();
@@ -42,9 +42,9 @@ describe('03 - Pure Test - using a Stub object', () => {
     done();
   });
 
-  // Change behavior using a 'Spy'
+  // Change behavior redefining the 'login' function of the stub
   it("should have no logged user if login fails", async (done) => {
-    // always fail the login procedure (this changes the service behavior)
+    // always fail the login procedure:
     // change the behavior of the stub object to match the test
     authApiServiceStub.login = (username: string, password: string) => Promise.resolve(false);
 

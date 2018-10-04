@@ -47,7 +47,7 @@ describe('01 - Angular Tests - changeDetection - AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     // ask Angular to apply its change detection cycle (all the bindings will be evaluated).
     // Angular responds to asynchronous activities such as promise resolution, timers, and DOM events.
-    // WARNING!!! A direct, synchronous update of the component property is invisible.
+    // WARNING!!! A direct, synchronous update of the component properties is invisible.
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Welcome to Unit Testing an Angular App!');
@@ -75,14 +75,19 @@ describe('01 - Angular Tests - changeDetection - AppComponent', () => {
     expect(compiled.textContent).toContain('Welcome to Unit Testing an Angular App!');
   });
 
-  it("should display a different title", () => {
+  it("should display a different title (force detectChanges())", () => {
     const fixture = TestBed.createComponent(AppComponent);
-    // access and interact with the componentInstance
+    fixture.detectChanges();
+
+    const compiled = fixture.debugElement.query(By.css("h1")).nativeElement;
+    expect(compiled.textContent).toContain('Welcome to Unit Testing an Angular App!');
+
+    // update the title
     fixture.componentInstance.title = "New Title";
     // ask Angular to apply its change detection cycle (bindings will be evaluated)
     fixture.detectChanges();
 
-    const compiled = fixture.debugElement.query(By.css("h1")).nativeElement;
+    // const compiled = fixture.debugElement.query(By.css("h1")).nativeElement;
     expect(compiled.textContent).toContain('New Title');
   });
 });

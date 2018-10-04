@@ -10,7 +10,9 @@ import { AuthService } from "../../services/auth.service";
 import { AppComponent } from "../../app.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
+// -------------------------------------------------------------
 // Test Services
+// -------------------------------------------------------------
 
 // Jasmine uses describe() to setup a test suite
 describe('00 - Angular Tests - initialization - AuthService', () => {
@@ -40,7 +42,7 @@ describe('00 - Angular Tests - initialization - AuthService', () => {
   // Get the service from an injector!
   // 2 ways to do it:
 
-  // 1- from TestBed.get() if the service is registered with the module
+  // 1- using TestBed.get() if the service is registered with the module
   it("should access the injected service from the TestBed.get()", () => {
     const auth = TestBed.get(AuthService) as AuthService;
     // expect() is used to verify expectations.
@@ -58,7 +60,7 @@ describe('00 - Angular Tests - initialization - AuthService', () => {
     expect(auth).toBeTruthy();
   });
 
-  // let's see some synchronous testing capabilities (no remote service involved)
+  // let's see some synchronous testing (no remote service involved)
 
   it('should have noone logged in', () => {
     const auth = TestBed.get(AuthService) as AuthService;
@@ -75,7 +77,9 @@ describe('00 - Angular Tests - initialization - AuthService', () => {
   });
 });
 
+// -------------------------------------------------------------
 // Test Components as services
+// -------------------------------------------------------------
 
 // To test the Component Class only, without the bindings and template,
 // register the component in the providers list and test it as a service
@@ -120,7 +124,9 @@ describe('00 - Angular Tests - initialization - AppComponent as a Service', () =
   });
 });
 
+// -------------------------------------------------------------
 // Test Components
+// -------------------------------------------------------------
 
 // Jasmine uses describe() to setup a test suite
 describe('00 - Angular Tests - initialization - AppComponent', () => {

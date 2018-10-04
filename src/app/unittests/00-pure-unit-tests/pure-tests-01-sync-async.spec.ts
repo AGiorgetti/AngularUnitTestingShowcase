@@ -33,7 +33,7 @@ describe('01 - Pure Test - Sync/Async - AuthService', () => {
 
   // Asynchronous Tests: they use a remote service
 
-  /* UNCOMMENT THIS TO SEE THE ERROR
+  /* UNCOMMENT THIS TEST TO SEE THE ERROR
 
   // Async Test, without a done() function call Jasmine will not wait for the async
   // operations to complete and will show the test as successful even if no expectation
@@ -49,26 +49,26 @@ describe('01 - Pure Test - Sync/Async - AuthService', () => {
   */
 
   // Async Test: Jasmine will wait for a done() function call that will mark
-  // all the async test operation as completed.
+  // all the async test operations as completed.
   it("(done()) should login a user", (done) => {
     sut.loginAsync("Alessandro", "12345")
       .then(result => {
         expect(result).toBeTruthy();
         expect(sut.isLoggedIn).toBeTruthy();
         expect(sut.username).toBe("Alessandro");
-        // call done when all your expectation are verified!
+        // call done when all your expectations are verified!
         done();
       });
   });
 
   // Async Test, make it more readable with async/await;
-  // the function is still async, and we still might to call done().
+  // the function is still async, and we still might call done().
   it("(async/await) should login a user", async (done) => {
     const result = await sut.loginAsync("Alessandro", "12345");
     expect(result).toBeTruthy();
     expect(sut.isLoggedIn).toBeTruthy();
     expect(sut.username).toBe("Alessandro");
-    // call done when all your expectation are verified!
+    // call done when all your expectations are verified!
     done();
   });
 
@@ -78,7 +78,7 @@ describe('01 - Pure Test - Sync/Async - AuthService', () => {
     expect(result).toBeTruthy();
     expect(sut.isLoggedIn).toBeTruthy();
     expect(sut.username).toBe("Alessandro");
-    // call done when all your expectation are verified!
+    // call done when all your expectations are verified!
     // done();
   });
 

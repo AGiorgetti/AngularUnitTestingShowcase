@@ -37,7 +37,7 @@ describe('05 - Pure Test - async() Angular Testing Utilities - AuthService', () 
       });
   }));
 
-  // Async Test, make it more readable with async/await
+  // async() Test; make it more readable with async/await
   // the function is still async.
   it("(async() + async/await) should login a user", async(async () => {
     const result = await sut.loginAsync("Alessandro", "12345");
@@ -51,7 +51,7 @@ describe('05 - Pure Test - async() Angular Testing Utilities - AuthService', () 
   it("(fakeAsync()) should login a user", fakeAsync(() => {
     // Comment the spyOn to see the error, the function uses a timer!
     spyOn(authApiService, "login")
-      .and.returnValue(true);
+      .and.returnValue(Promise.resolve(true));
 
     let result: boolean;
     sut.loginAsync("Alessandro", "12345")

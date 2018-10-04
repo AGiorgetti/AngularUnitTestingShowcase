@@ -35,7 +35,8 @@ describe('06 - Marble Tests', () => {
     const values = {};
     let idx = 0;
 
-    // be careful! it work only for the first 10 symbols [0-9]
+    // subscribe to the observable and "observe" the returned valued
+    // be careful! it works only for the first 10 symbols [0-9]
     sut.loggedUser$.subscribe(
       data => {
         idx++;
@@ -59,7 +60,7 @@ describe('06 - Marble Tests', () => {
     expect(taped).toBeObservable(expected);
   });
 
-  it('should notify users changes as multiple users login', () => {
+  it('should notify changes as multiple users login', () => {
     // mock the login behavior
     const scheduler = getTestScheduler();
     spyOn(authApiServiceStub, 'login').and
@@ -69,6 +70,7 @@ describe('06 - Marble Tests', () => {
     const values = {};
     let idx = 0;
 
+    // subscribe to the observable and "observe" the returned valued
     // be careful! it work only for the first 10 symbols [0-9]
     sut.loggedUser$.subscribe(
       data => {
@@ -87,7 +89,6 @@ describe('06 - Marble Tests', () => {
     to be emitted, there are more async operations involved
 
     const actions = cold("123", { '1': 'Alessandro', '2': 'Marco', '3': 'Michela' });
-
     actions.subscribe(username => {
       sut.login(username, '12345');
     });
@@ -108,17 +109,18 @@ describe('06 - Marble Tests', () => {
   // rewrite the tests using a TestScheduler
 
   it('[TestScheduler] should login a user', () => {
+
     const scheduler = getTestScheduler();
 
     // mock the login behavior
-    // WARNING: it is important to pass the test scheduler along all the observable chain!
+    // WARNING: it is important to pass the TestScheduler along all the observable chain!
     spyOn(authApiServiceStub, 'login').and
       .callFake(function () { return of(arguments[0], scheduler); });
 
-    // use the scheduler to execute operations at give time frames
-    // the SUT internally uses a behavior subject with emit a 'null'
-    // value when initialized, thus using the first time slot
-    // so we specify 10, this way we emit on the second timeslot
+    // Use the scheduler to execute operations at give time frames.
+    // The SUT internally uses a BehaviorSubject that emits a 'null'
+    // value when initialized, thus using the first time slot;
+    // so we specify a delay of 10, this way we emit a value on the second timeslot.
     scheduler.schedule(() => sut.login('Alessandro', '12345'), 10);
 
     // use rxjs/testing and jasmine-marbles to verify the expectation based on observables
@@ -130,17 +132,18 @@ describe('06 - Marble Tests', () => {
     scheduler.flush();
   });
 
-  it('[TestScheduler] should notify users changes as multiple users login', () => {
+  it('[TestScheduler] should notify changes as multiple users login', () => {
+
     const scheduler = getTestScheduler();
 
     // mock the login behavior
-    // WARNING: it is important to pass the test scheduler along all the observable chain!
+    // WARNING: it is important to pass the TestScheduler along all the observable chain!
     spyOn(authApiServiceStub, 'login').and.callFake(function () { return of(arguments[0], scheduler); });
 
-    // use the scheduler to execute operations at give time frames
-    // the SUT internally uses a behavior subject with emit a 'null'
-    // value when initialized, thus using the first time slot
-    // so we specify 10, this way we emit on the second timeslot
+    // Use the scheduler to execute operations at give time frames.
+    // The SUT internally uses a BehaviorSubject that emits a 'null'
+    // value when initialized, thus using the first time slot;
+    // so we specify a delay of 10, this way we emit a value on the second timeslot.
     scheduler.schedule(() => sut.login('Alessandro', '12345'), 10);
     scheduler.schedule(() => sut.login('Marco', '12345'), 20);
     scheduler.schedule(() => sut.login('Michela', '12345'), 30);

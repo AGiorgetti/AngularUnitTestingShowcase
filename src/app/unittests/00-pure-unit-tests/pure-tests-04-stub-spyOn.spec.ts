@@ -31,7 +31,7 @@ describe('04 - Pure Test - spyOn a stub object.', () => {
     expect(sut.isLoggedIn).toBeFalsy();
   });
 
-  // intrument using a 'Spy' and delegate to the original function code
+  // instrument using a 'Spy' and delegate to the original function code
   it("should login a user", async (done) => {
     const result = await sut.loginAsync("Alessandro", "12345");
     expect(loginSpy.calls.count()).toBe(1);
@@ -63,7 +63,7 @@ describe('04 - Pure Test - spyOn a stub object.', () => {
   it("should have no logged user if the http call fails (fake)", async (done) => {
     // always fail the login procedure (this changes the service behavior)
     authApiServiceStub.login = (username: string, password: string) => { throw new Error("http error!"); };
-    // I changed the function, I need to reinstall the spy.
+    // if we change the function, we need to reinstall the spy.
     loginSpy = spyOn(authApiServiceStub, "login")
       .and.callThrough();
 
@@ -82,9 +82,9 @@ describe('04 - Pure Test - spyOn a stub object.', () => {
 });
 
 // Jasmine can also mix both approaches:
-// - create a spy stub object: all the functions are implementes ad spies that you can inspect or change
+// - create a spy-stub object: all the functions are implementes ad spies that you can inspect or change
 
-describe('04 - Pure Test - a spy stub object!', () => {
+describe('04 - Pure Test - a spy-stub object!', () => {
 
   // a spy is also a function defined as: (...params: any[]): any;
   // we can use it to implement any function.

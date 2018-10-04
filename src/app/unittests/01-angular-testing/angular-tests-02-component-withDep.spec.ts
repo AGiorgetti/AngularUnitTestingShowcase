@@ -9,7 +9,9 @@ import { GreetingsComponent } from '../../components/greetings/greetings.compone
 import { AuthService } from '../../services/auth.service';
 import { AuthApiService } from '../../services/auth-api.service';
 
+// ---------------------------------------------------------------
 // Use a STUB OBJECT
+// ---------------------------------------------------------------
 
 // Provide a Test Double for the injected service, 2 approaches:
 // - Stub: provide a stub object.
@@ -25,7 +27,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
   let component: GreetingsComponent;
   let fixture: ComponentFixture<GreetingsComponent>;
 
-  // the stub definition object
+  // the stub object definition
   const authServiceStub = <AuthService>{
     isLoggedIn: false
   };
@@ -97,7 +99,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
     const auth = fixture.debugElement.injector.get(AuthService);
     expect(authServiceStub === auth).toBe(false);
 
-    // Changing the stub object has no effect on the injected service
+    // Changing the original stub object has no effect on the injected service
     (<any>authServiceStub).isLoggedIn = true;
     expect(auth.isLoggedIn).toBe(false);
 
@@ -139,7 +141,9 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub Injected Se
 
 });
 
+// ---------------------------------------------------------------
 // SPY ON / STUB the real implementation (change methods behavior)
+// ---------------------------------------------------------------
 
 // Provide a Test Double for the injected service, 2 approaches:
 // - Stub: provide a stub object.
@@ -176,11 +180,11 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub/SpyOn Injec
     fixture = TestBed.createComponent(GreetingsComponent);
     component = fixture.componentInstance;
 
+    const auth = fixture.debugElement.injector.get(AuthService);
+
     // spyOn()
     // change the service behavior before the first detectChanges() call!
     // authenticate a user.
-    const auth = fixture.debugElement.injector.get(AuthService);
-
     spyOnProperty(auth, "isLoggedIn", "get").and.returnValue(true);
     spyOnProperty(auth, "username", "get").and.returnValue("Alessandro");
 
@@ -224,6 +228,7 @@ describe('02 - Angular Tests - with dep. - GreetingsComponent - Stub/SpyOn Injec
 
   it("should display greetings message when the user is authenticated", () => {
     fixture.detectChanges();
+    // verify the spy worked!
     const el = fixture.debugElement.query(By.css("h3")).nativeElement;
     expect(el.textContent).toBe("Welcome, Alessandro");
   });

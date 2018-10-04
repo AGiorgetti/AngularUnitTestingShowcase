@@ -63,10 +63,11 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
     expect(getLoggedUserAsyncSpy.calls.any()).toBe(false, 'getLoggedUserAsync not yet called');
   });
 
-  it('should still not show quote after component initialize', () => {
+  // synchronous test! we do not wait for the service to provide its data
+  it('should not show quote after component initialize (sync)', () => {
     // force change detecion, calls ngOnInit
     fixture.detectChanges();
-    // getLoggedUserAsync is async => still has not returned any data
+    // getLoggedUserAsync is async => it has not returned any data yet
     expect(el.textContent).toBe('...', 'no greetings yet');
     expect(getLoggedUserAsyncSpy.calls.any()).toBe(true, 'getLoggedUserAsync called');
   });
@@ -112,7 +113,8 @@ describe('03 - Angular Tests - with dep. Async - GreetingsAsyncComponent', () =>
       });
   });
 
-  // async() and fackeAsync() can be used to tests services too
+  // async() and fackeAsync() can be used to tests services too.
+  // we saw it in the "pure unit tests" section
 
   it('AuthService should return the logged user username', async(inject([AuthService], async (service) => {
     const loggedUser = await service.getLoggedUserAsync();
